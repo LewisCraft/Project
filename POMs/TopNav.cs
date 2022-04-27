@@ -1,0 +1,30 @@
+﻿using OpenQA.Selenium;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Project.POMs.TopNav
+{
+    public class TopNav
+    {
+
+        private IWebDriver _driver;
+
+        public TopNav(IWebDriver driver)
+        {
+            this._driver = driver;
+        }
+
+        public IWebElement Home => _driver.FindElement(By.LinkText("Home"));
+        public IWebElement Shop => _driver.FindElement(By.LinkText("Shop"));
+        public IWebElement Cart => _driver.FindElement(By.LinkText("Cart"));
+        public IWebElement Checkout => _driver.FindElement(By.LinkText("Checkout"));
+        public IWebElement Account => _driver.FindElement(By.LinkText("My account"));
+        public IWebElement Blog => _driver.FindElement(By.LinkText("Blog"));
+
+        public void ScrollToTopNav() => ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView(true);", Home);
+
+    }
+}

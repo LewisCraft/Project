@@ -57,10 +57,10 @@ namespace Project.StepDefinitions
         public void ThenDiscountIsApplied(int discount)
         {
             cart.SetDiscount(discount);
-            Console.WriteLine("expected price: " + cart.ExpectedTotal());
-            Console.WriteLine("actual total: " + cart.GetActualTotal);
             cart.CheckDiscountIsCorrect();
-            
+            topNav.Cart.Click();
+            cart.RemoveItem();
+
         }
 
         [Then(@"the correct price is displayed")]

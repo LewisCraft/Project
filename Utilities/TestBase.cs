@@ -49,8 +49,6 @@ namespace Project.Utilities
         public void TearDown()
         {
 
-            topNav.Cart.Click();
-            cart.RemoveItem();
             topNav.Account.Click();
             account.ScrollTo(account.LogOut);
             account.LogOut.Click();

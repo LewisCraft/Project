@@ -98,7 +98,7 @@ namespace Project.POMs.Checkout_POM
             {
                 //((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView(true);", GetPlaceOrder);
                 _wait.Until(drv => GetPlaceOrder.Displayed);
-                Thread.Sleep(3000);
+                Thread.Sleep(500);
                 GetPlaceOrder.Click();
 
             }

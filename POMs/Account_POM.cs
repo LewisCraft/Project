@@ -58,21 +58,27 @@ namespace Project.POMs.Account_POM
         }
 
         //function to look for order using the order number found when placing the order
-        public bool FindOrder(string orderNum)
+        public void FindOrder(string orderNum)
         {
+
+            bool found = false;
+
             try
             {
                 _driver.FindElement(By.LinkText("#" + orderNum));
-                Assert.Pass("The order has been found");
-                return true;
+                //Assert.Pass("The order has been found");
+                found = true;
             }
             catch (Exception ex)
             {
                 //Console.WriteLine("The order has not been found");
                 //Console.WriteLine(ex.Message);
-                Assert.Fail("The order was not found");
-                return false;
+                //Assert.Fail("The order was not found");
+                found = false;
             }
+
+            Assert.That(found, Is.True, "The order was not found");
+
         }
 
     }

@@ -3,14 +3,8 @@ using TechTalk.SpecFlow;
 
 using static Project.Utilities.TestBase;
 
-//turns out can't use wildcard to use multiple namespaces like in java so heres all the POMs
+//turns out can't use wildcard to use multiple namespaces like in java so here's all the POMs
 using Project.POMs.TopNav;
-using Project.POMs.Shop_POM;
-using Project.POMs.Checkout_POM;
-using Project.POMs.Cart_POM;
-using Project.POMs.Account_POM;
-
-//consider using environment variables
 
 namespace Project.StepDefinitions
 {
@@ -18,23 +12,21 @@ namespace Project.StepDefinitions
     public class PlaceAnOrderStepDefinitions
     {
 
-        [Given(@"I am logged in using the details in file '([^']*)'")]
-        public void GivenIAmLoggedInUsingTheDetailsInFile(string filePath)
+        [Given(@"I am logged in")]
+        public void GivenIAmLoggedInUsingTheDetailsInFile()
         {
 
             topNav.Account.Click();
 
-            string loginDetails = @"../../../project login deets.txt";
+            //string loginDetails = @"../../../project login deets.txt";
 
-            account.Login(loginDetails);
+            account.Login();
         }
 
         [Given(@"I have item '([0-9]{1,2})' in the cart")]
         public void GivenIHaveItemInTheCart(int itemNum)
         {
-
             topNav.Shop.Click();
-            shop.ScrollTo(shop.GetItem(1));
             shop.ClickBuyItem(1);
         }
 
@@ -73,8 +65,8 @@ namespace Project.StepDefinitions
         public void WhenIPlaceAnOrder()
         {
             topNav.Checkout.Click();
-            string checkoutDetails = @"../../../project checkout deets.txt";
-            checkout.EnterDetails(checkoutDetails);
+            //string checkoutDetails = @"../../../project checkout deets.txt";
+            checkout.EnterDetails();
             checkout.PlaceOrder();
         }
 

@@ -19,22 +19,49 @@ namespace Project.POMs.Account_POM
         }
 
         //functions to find and use fields for log in
+        //functions can be overridden using string input, otherwise uses environment variables
         public IWebElement Username => _driver.FindElement(By.Id("username"));
         public void EnterUsername(string username) { Username.SendKeys(username); }
+        public void EnterUsername() 
+        {
+            
+            try {
+                string username = Environment.GetEnvironmentVariable("username"); 
+                Username.SendKeys(username);
+            }
+            catch { Console.WriteLine("login username not found in environment variables"); }
+
+        }
 
         public IWebElement Password => _driver.FindElement(By.Id("password"));
         public void EnterPassword(string password) { Password.SendKeys(password); }
+        public void EnterPassword() 
+        {
+            
+            try {
+                string password = Environment.GetEnvironmentVariable("password"); 
+                Password.SendKeys(password);
+            }
+            catch { Console.WriteLine("login password not found in environment variables"); }
+        }
 
         public IWebElement Submit => _driver.FindElement(By.CssSelector("p.form-row:nth-child(3) > button:nth-child(3)"));
         public void ClickSubmit() { Submit.Click(); }
 
-        //function to simplify login by calling all required functions using file as input
+        //functions to simplify login by calling all required functions
+        //can use filepath for an input file or just use environment variables instead
         public void Login(string filepath)
         {
             string[] inputs = System.IO.File.ReadAllLines(filepath);
 
             EnterUsername(inputs[0]);
             EnterPassword(inputs[1]);
+            ClickSubmit();
+        }
+        public void Login()
+        {
+            EnterUsername();
+            EnterPassword();
             ClickSubmit();
         }
 
@@ -51,6 +78,8 @@ namespace Project.POMs.Account_POM
         public IWebElement Addresses => _driver.FindElement(By.LinkText("Addresses"));
         public IWebElement AccountDetails => _driver.FindElement(By.LinkText("Account details"));
         public IWebElement LogOut => _driver.FindElement(By.LinkText("Logout"));
+        
+        //function to log out
         public void ClickLogout()
         {
             ScrollTo(LogOut);

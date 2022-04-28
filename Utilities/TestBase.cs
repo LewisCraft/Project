@@ -18,9 +18,10 @@ namespace Project.Utilities
     [Binding]
     public class TestBase
     {
-
+        //set up webdriver
         public static IWebDriver driver;
 
+        //set up poms for use
         public static TopNav topNav;
         public static Shop_POM shop;
         public static Cart_POM cart;
@@ -30,12 +31,27 @@ namespace Project.Utilities
         [BeforeScenario]
         public void SetUP()
         {
+            //get base URL from environment variables
+            string baseUrl;
+            try
+            {
+                baseUrl = Environment.GetEnvironmentVariable("BaseUrl");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Base url not found");
+                throw ex;
+            }
+
+            //set up the driver as a chrome driver
             driver = new ChromeDriver();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
             driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(20);
-            driver.Url = "https://www.edgewordstraining.co.uk/demo-site/my-account/";
+            driver.Manage().Window.Maximize();
+            driver.Url = baseUrl+"/my-account";
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
 
+            //make the POMs
             topNav = new TopNav(driver);
             shop = new Shop_POM(driver);
             cart = new Cart_POM(driver);
@@ -44,11 +60,12 @@ namespace Project.Utilities
 
         }
 
-
         [AfterScenario]
         public void TearDown()
         {
-
+            cart.RemoveItem();
+            Thread.Sleep(800);
+            topNav.ScrollToTopNav();
             topNav.Account.Click();
             account.ScrollTo(account.LogOut);
             account.LogOut.Click();

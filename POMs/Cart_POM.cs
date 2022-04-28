@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +12,18 @@ namespace Project.POMs.Cart_POM
     public class Cart_POM
     {
 
+        //set up driver and wait
+        //discount value is used in calculating values related to the expected discount
         private IWebDriver _driver;
+        private WebDriverWait _wait;
         private int _discount;
 
         //constructor
+        //discount is set to 0 by default
         public Cart_POM(IWebDriver driver)
         {
             _driver = driver;
+            _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
             _discount = 0;
         }
 
@@ -38,12 +44,18 @@ namespace Project.POMs.Cart_POM
             ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView(true);", element);
         }
 
-        //function to remove item from the cart
+        //functions to remove item from the cart
+        //probably only works when only one item type is in the cart
+        public IWebElement RemoveButton => _driver.FindElement(By.CssSelector(".remove"));
         public void RemoveItem()
         {
             try
             {
-                _driver.FindElement(By.CssSelector(".remove")).Click();
+                //Thread.Sleep(500);
+                ScrollTo(RemoveButton);
+                RemoveButton.Click();
+                _wait.Until(drv => drv.FindElement(By.CssSelector(".cart-empty")).Displayed);
+
             }
             catch (Exception ex)
             {
@@ -52,6 +64,7 @@ namespace Project.POMs.Cart_POM
         }
 
         //functions to enter the coupon into the coupon code field
+        //takes the coupon code as a string as input
         public IWebElement GetCoupon => _driver.FindElement(By.Id("coupon_code"));
         public IWebElement GetCouponButton => _driver.FindElement(By.CssSelector(@"button.button:nth-child(3)"));
         public void EnterCoupon(string couponCode)
@@ -62,6 +75,7 @@ namespace Project.POMs.Cart_POM
             GetCouponButton.Click();
         }
 
+        //functions to get price values from the page for comparison and some calculations
 
         //get price of the item as a string
         private string GetOriginalPriceString => _driver.FindElement(By.CssSelector("td.product-subtotal > span:nth-child(1)")).Text;
@@ -86,11 +100,14 @@ namespace Project.POMs.Cart_POM
         private string GetActualTotalString => _driver.FindElement(By.CssSelector(".order-total > td:nth-child(2) > strong:nth-child(1) > span:nth-child(1)")).Text;
         public decimal GetActualTotal => Decimal.Parse(GetActualTotalString.Substring(1));
 
+        //function to assert that the coupon value is correctly assigned
+        //error message gives actual and expected discounts as percentages
         public void CheckDiscountIsCorrect()
         {
             Assert.That(ExpectedDiscount(), Is.EqualTo(ActualDiscount), $"Incorrect discount applied: expected {_discount}%, was actually {(int)((ActualDiscount / GetOriginalPrice) * 100)}%");
         }
 
+        //function to assert that the end price with discount and shipping is correct
         public void CheckTotalPriceIsCorrect()
         {
             Assert.That(ExpectedTotal(), Is.EqualTo(GetActualTotal), "Total Price is incorrect");

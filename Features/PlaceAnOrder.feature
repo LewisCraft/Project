@@ -1,9 +1,9 @@
 ﻿Feature: PlaceAnOrder
 
-A short summary of the feature
+Items can be ordered from the shop
 
 Background: 
-	Given I am logged in using the details in file '../../../project login deets.txt'
+	Given I am logged in
 	And I have item '1' in the cart
 	And I am on the cart page
 

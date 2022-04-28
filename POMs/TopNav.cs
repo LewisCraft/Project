@@ -17,6 +17,7 @@ namespace Project.POMs.TopNav
             this._driver = driver;
         }
 
+        //lambdas to get all the links in the navigation bar
         public IWebElement Home => _driver.FindElement(By.LinkText("Home"));
         public IWebElement Shop => _driver.FindElement(By.LinkText("Shop"));
         public IWebElement Cart => _driver.FindElement(By.LinkText("Cart"));

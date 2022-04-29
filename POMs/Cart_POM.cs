@@ -75,6 +75,11 @@ namespace Project.POMs.Cart_POM
             GetCouponButton.Click();
         }
 
+        public bool IsEmpty()
+        {
+            return _driver.FindElement(By.CssSelector(@".cart-empty")).Displayed;
+        }
+
         //functions to get price values from the page for comparison and some calculations
 
         //get price of the item as a string

@@ -63,8 +63,12 @@ namespace Project.Utilities
         [AfterScenario]
         public void TearDown()
         {
-            cart.RemoveItem();
-            Thread.Sleep(800);
+            topNav.Cart.Click();
+            if(!cart.isEmpty())
+            {
+                cart.RemoveItem();
+                Thread.Sleep(800);
+            }
             topNav.ScrollToTopNav();
             topNav.Account.Click();
             account.ScrollTo(account.LogOut);

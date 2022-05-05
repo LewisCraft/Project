@@ -37,16 +37,17 @@ namespace Project.Utilities
             {
                 baseUrl = Environment.GetEnvironmentVariable("BaseUrl");
             }
-            catch (Exception ex)
+            catch
             {
                 Console.WriteLine("Base url not found");
-                throw ex;
+                //default value for now if environment variables not found
+                baseUrl = "http://edgewordstraining.co.uk/demo-site";
             }
 
             //set up the driver as a chrome driver
             driver = new ChromeDriver();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(20);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(5);
             driver.Manage().Window.Maximize();
             driver.Url = baseUrl+"/my-account";
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
@@ -71,7 +72,7 @@ namespace Project.Utilities
             {
                 cartEmpty = cart.IsEmpty();
             }
-            catch(Exception ex)
+            catch
             {
                 cartEmpty = false;
             }

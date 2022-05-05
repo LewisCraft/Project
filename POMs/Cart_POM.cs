@@ -51,13 +51,13 @@ namespace Project.POMs.Cart_POM
         {
             try
             {
-                //Thread.Sleep(500);
+                Thread.Sleep(500);
                 ScrollTo(RemoveButton);
                 RemoveButton.Click();
                 _wait.Until(drv => drv.FindElement(By.CssSelector(".cart-empty")).Displayed);
 
             }
-            catch (Exception ex)
+            catch
             {
                 Console.WriteLine("cart is probably empty already");
             }

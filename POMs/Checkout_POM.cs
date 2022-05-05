@@ -144,7 +144,7 @@ namespace Project.POMs.Checkout_POM
             {
                 _wait.Until(drv => GetPlaceOrder.Displayed);
                 //has to wait for a moment as the button seems to move immediately after inputs
-                Thread.Sleep(200);
+                Thread.Sleep(1000);
                 GetPlaceOrder.Click();
 
             }

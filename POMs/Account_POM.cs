@@ -98,7 +98,7 @@ namespace Project.POMs.Account_POM
                 //Assert.Pass("The order has been found");
                 found = true;
             }
-            catch (Exception ex)
+            catch
             {
                 //Console.WriteLine("The order has not been found");
                 //Console.WriteLine(ex.Message);

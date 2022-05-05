@@ -5,6 +5,7 @@ using static Project.Utilities.TestBase;
 
 //turns out can't use wildcard to use multiple namespaces like in java so here's all the POMs
 using Project.POMs.TopNav;
+using NUnit.Framework;
 
 namespace Project.StepDefinitions
 {
@@ -49,14 +50,17 @@ namespace Project.StepDefinitions
         public void ThenDiscountIsApplied(int discount)
         {
             cart.SetDiscount(discount);
-            cart.CheckDiscountIsCorrect();
+            Assert.That(cart.ExpectedDiscount(), Is.EqualTo(cart.ActualDiscount), $"Incorrect discount applied: expected {cart.GetDiscount()}%, was actually {(int)((cart.ActualDiscount / cart.GetOriginalPrice) * 100)}%");
+            //cart.CheckDiscountIsCorrect();
+            
 
         }
 
         [Then(@"the correct price is displayed")]
         public void ThenTheCorrectPriceIsDisplayed()
         {
-            cart.CheckTotalPriceIsCorrect();
+            Assert.That(cart.ExpectedTotal(), Is.EqualTo(cart.GetActualTotal), $"Total Price is incorrect: expected {cart.ExpectedTotal()}, but was actually {cart.GetActualTotal}");
+            //cart.CheckTotalPriceIsCorrect();
         }
 
         [When(@"I place an order")]
@@ -74,7 +78,7 @@ namespace Project.StepDefinitions
             string orderNum = checkout.GetOrderNumber();
             topNav.Account.Click();
             account.Orders.Click();
-            account.FindOrder(orderNum);
+            Assert.That(account.OrderFound(orderNum), Is.True, $"Order {orderNum} was not found on the account");
         }
 
     }

@@ -87,7 +87,7 @@ namespace Project.POMs.Account_POM
         }
 
         //function to look for order using the order number found when placing the order
-        public void FindOrder(string orderNum)
+        public bool OrderFound(string orderNum)
         {
 
             bool found = false;
@@ -106,7 +106,7 @@ namespace Project.POMs.Account_POM
                 found = false;
             }
 
-            Assert.That(found, Is.True, "The order was not found");
+            return found;
 
         }
 

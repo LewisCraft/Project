@@ -50,8 +50,6 @@ namespace Project.StepDefinitions
         {
             cart.SetDiscount(discount);
             cart.CheckDiscountIsCorrect();
-            topNav.Cart.Click();
-            cart.RemoveItem();
 
         }
 

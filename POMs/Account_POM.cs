@@ -13,39 +13,31 @@ namespace Project.POMs.Account_POM
 
         private IWebDriver _driver;
 
+        //locators for account dashboard
+        public IWebElement DashBoard => _driver.FindElement(By.LinkText("Dashboard"));
+        public IWebElement Orders => _driver.FindElement(By.LinkText("Orders"));
+        public IWebElement Downloads => _driver.FindElement(By.LinkText("Downloads"));
+        public IWebElement Addresses => _driver.FindElement(By.LinkText("Addresses"));
+        public IWebElement AccountDetails => _driver.FindElement(By.LinkText("Account details"));
+        public IWebElement LogOut => _driver.FindElement(By.LinkText("Logout"));
+
+        //locators for login fields
+        public IWebElement Username => _driver.FindElement(By.Id("username"));
+        public IWebElement Password => _driver.FindElement(By.Id("password"));
+        public IWebElement Submit => _driver.FindElement(By.CssSelector("p.form-row:nth-child(3) > button:nth-child(3)"));
+
         public Account_POM(IWebDriver driver)
         {
             _driver = driver;
         }
 
-        //functions to find and use fields for log in
-        //functions can be overridden using string input, otherwise uses environment variables
-        public IWebElement Username => _driver.FindElement(By.Id("username"));
+        //functions to use fields for log in
+        //functions use string input
+        
         public void EnterUsername(string username) { Username.SendKeys(username); }
-        public void EnterUsername() 
-        {
-            
-            try {
-                string username = Environment.GetEnvironmentVariable("username"); 
-                Username.SendKeys(username);
-            }
-            catch { Console.WriteLine("login username not found in environment variables"); }
 
-        }
-
-        public IWebElement Password => _driver.FindElement(By.Id("password"));
         public void EnterPassword(string password) { Password.SendKeys(password); }
-        public void EnterPassword() 
-        {
-            
-            try {
-                string password = Environment.GetEnvironmentVariable("password"); 
-                Password.SendKeys(password);
-            }
-            catch { Console.WriteLine("login password not found in environment variables"); }
-        }
 
-        public IWebElement Submit => _driver.FindElement(By.CssSelector("p.form-row:nth-child(3) > button:nth-child(3)"));
         public void ClickSubmit() { Submit.Click(); }
 
         //functions to simplify login by calling all required functions
@@ -60,8 +52,8 @@ namespace Project.POMs.Account_POM
         }
         public void Login()
         {
-            EnterUsername();
-            EnterPassword();
+            EnterUsername(Environment.GetEnvironmentVariable("username"));
+            EnterPassword(Environment.GetEnvironmentVariable("password"));
             ClickSubmit();
         }
 
@@ -71,13 +63,7 @@ namespace Project.POMs.Account_POM
             ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView(true);", element);
         }
 
-        //lambdas to get the links on the side bar once logged in
-        public IWebElement DashBoard => _driver.FindElement(By.LinkText("Dashboard"));
-        public IWebElement Orders => _driver.FindElement(By.LinkText("Orders"));
-        public IWebElement Downloads => _driver.FindElement(By.LinkText("Downloads"));
-        public IWebElement Addresses => _driver.FindElement(By.LinkText("Addresses"));
-        public IWebElement AccountDetails => _driver.FindElement(By.LinkText("Account details"));
-        public IWebElement LogOut => _driver.FindElement(By.LinkText("Logout"));
+        
         
         //function to log out
         public void ClickLogout()

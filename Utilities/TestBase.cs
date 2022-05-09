@@ -32,12 +32,8 @@ namespace Project.Utilities
         public void SetUP()
         {
             //get base URL from environment variables
-            string baseUrl;
-            try
-            {
-                baseUrl = Environment.GetEnvironmentVariable("BaseUrl");
-            }
-            catch
+            string baseUrl = Environment.GetEnvironmentVariable("BaseUrl");
+            if(baseUrl == null)
             {
                 Console.WriteLine("Base url not found");
                 //default value for now if environment variables not found
@@ -52,12 +48,9 @@ namespace Project.Utilities
             driver.Url = baseUrl+"/my-account";
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
 
-            //make the POMs
+            //make the topnav POM
             topNav = new TopNav(driver);
-            shop = new Shop_POM(driver);
-            cart = new Cart_POM(driver);
-            checkout = new Checkout_POM(driver);
-            account = new Account_POM(driver);
+            
 
         }
 

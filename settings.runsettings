@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RunSettings>
+	<RunConfiguration>
+		<EnvironmentVariables>
+			<BaseUrl>https://www.edgewordstraining.co.uk/demo-site</BaseUrl>
+			<Username>lewis.craft@nfocus.co.uk</Username>
+			<Password>qwertyuioplmnbvcxzasdfghjkl0987654321</Password>
+			<FName>Lewis</FName>
+			<LName>Craft</LName>
+			<Address>123 Fake Street</Address>
+			<City>Springfield</City>
+			<Postcode>SS0 9EF</Postcode>
+			<PhoneNumber>01702 666985</PhoneNumber>
+		</EnvironmentVariables>
+	</RunConfiguration>
+</RunSettings>

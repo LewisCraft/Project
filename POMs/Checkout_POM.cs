@@ -71,25 +71,16 @@ namespace Project.POMs.Checkout_POM
         }
 
         //functions to simplify the inputs, can take a filepath as a string for input file
-        //otherwise will use the environment variables
+        //otherwise will use the default checkout details
         public void EnterDetails(string filepath)
         {
-            string[] inputs = System.IO.File.ReadAllLines(filepath);
-            inputs = inputs[0].Split(',');
-
-            EnterFName(inputs[0]);
-            EnterLName(inputs[1]);
-            EnterAddress(inputs[2]);
-            EnterCity(inputs[3]);
-            EnterPostcode(inputs[4]);
-            EnterPhone(inputs[5]);
+            CheckoutDetails details = new CheckoutDetails(filepath);
+            EnterDetails(details);
         }
         public void EnterDetails()
         {
-
             CheckoutDetails details = new CheckoutDetails();
             EnterDetails(details);
-            
         }
         private void EnterDetails(CheckoutDetails details)
         {

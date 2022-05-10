@@ -27,5 +27,19 @@ namespace Project.Utilities.CheckoutDetails
             Postcode = "SS0 9EF";
             Phone = "01702 666985";
         }
+
+        //constructer that reads in the data from a text file taking a filepath as input
+        public CheckoutDetails(string filepath)
+        {
+            string[] inputs = System.IO.File.ReadAllLines(filepath);
+            inputs = inputs[0].Split(',');
+
+            FName = inputs[0];
+            LName = inputs[1];
+            Address = inputs[2];
+            City = inputs[3];
+            Postcode = inputs[4];
+            Phone = inputs[5];
+        }
     }
 }

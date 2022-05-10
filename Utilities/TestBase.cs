@@ -18,15 +18,23 @@ namespace Project.Utilities
     [Binding]
     public class TestBase
     {
-        //set up webdriver
-        public static IWebDriver driver;
 
-        //set up poms for use
+        //set up scenario context for base test class
+        private ScenarioContext _scenarioContext;
+
+        //define poms for use
         public static TopNav topNav;
         public static Shop_POM shop;
         public static Cart_POM cart;
         public static Checkout_POM checkout;
         public static Account_POM account;
+
+        //set up scenario context for sharing data between steps
+        public TestBase(ScenarioContext scenarioContext)
+        {
+            _scenarioContext = scenarioContext;
+        }
+
 
         [BeforeScenario]
         public void SetUP()
@@ -41,11 +49,16 @@ namespace Project.Utilities
             }
 
             //set up the driver as a chrome driver
-            driver = new ChromeDriver();
+            IWebDriver driver = new ChromeDriver();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(5);
             driver.Manage().Window.Maximize();
             driver.Url = baseUrl+"/my-account";
+
+            //store driver in scenario context to share between steps
+            _scenarioContext["driver"] = driver;
+
+
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
 
             //make the topnav POM
@@ -78,6 +91,7 @@ namespace Project.Utilities
             topNav.Account.Click();
             account.ScrollTo(account.LogOut);
             account.LogOut.Click();
+            IWebDriver driver = (IWebDriver)_scenarioContext["driver"];
             driver.Quit();
 
         }

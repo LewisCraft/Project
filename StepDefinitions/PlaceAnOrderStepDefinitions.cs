@@ -5,13 +5,30 @@ using static Project.Utilities.TestBase;
 
 //turns out can't use wildcard to use multiple namespaces like in java so here's all the POMs
 using Project.POMs.TopNav;
+using Project.POMs.Account_POM;
+using Project.POMs.Cart_POM;
+using Project.POMs.Checkout_POM;
+using Project.POMs.Shop_POM;
 using NUnit.Framework;
+using OpenQA.Selenium;
 
 namespace Project.StepDefinitions
 {
     [Binding]
     public class PlaceAnOrderStepDefinitions
     {
+
+        //set up scenario context for test class to enable sharing of data between steps
+        private ScenarioContext _scenarioContext;
+        private IWebDriver _driver;
+
+        //constructer to get the ScenarioContext
+        //also gets the driver from the base class
+        public PlaceAnOrderStepDefinitions(ScenarioContext scenarioContext)
+        {
+            _scenarioContext = scenarioContext;
+            _driver = (IWebDriver)_scenarioContext["driver"];
+        }
 
         [Given(@"I am logged in")]
         public void GivenIAmLoggedInUsingTheDetailsInFile()
@@ -20,6 +37,7 @@ namespace Project.StepDefinitions
             topNav.Account.Click();
 
             //string loginDetails = @"../../../project login deets.txt";
+            account = new Account_POM(_driver);
 
             account.Login();
         }
@@ -28,21 +46,24 @@ namespace Project.StepDefinitions
         public void GivenIHaveItemInTheCart(int itemNum)
         {
             topNav.Shop.Click();
+
+            shop = new Shop_POM(_driver);
+
             shop.ClickBuyItem(1);
         }
 
         [Given(@"I am on the cart page")]
         public void GivenIAmOnTheCartPage()
         {
-            TopNav topNav = new TopNav(driver);
-
             topNav.ScrollToTopNav();
             topNav.Cart.Click();
+            cart = new Cart_POM(_driver);
         }
 
         [When(@"I apply the coupon '([^']*)'")]
         public void WhenIApplyTheCoupon(string couponCode)
         {
+
             cart.EnterCoupon(couponCode);
         }
 
@@ -68,6 +89,8 @@ namespace Project.StepDefinitions
         {
             topNav.Checkout.Click();
             //string checkoutDetails = @"../../../project checkout deets.txt";
+            checkout = new Checkout_POM(_driver);
+
             checkout.EnterDetails();
             checkout.PlaceOrder();
         }

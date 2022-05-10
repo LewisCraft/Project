@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Project.Utilities.CheckoutDetails;
 
 namespace Project.POMs.Checkout_POM
 {
@@ -74,6 +75,7 @@ namespace Project.POMs.Checkout_POM
         public void EnterDetails(string filepath)
         {
             string[] inputs = System.IO.File.ReadAllLines(filepath);
+            inputs = inputs[0].Split(',');
 
             EnterFName(inputs[0]);
             EnterLName(inputs[1]);
@@ -84,12 +86,19 @@ namespace Project.POMs.Checkout_POM
         }
         public void EnterDetails()
         {
-            EnterFName(Environment.GetEnvironmentVariable("FName"));
-            EnterLName(Environment.GetEnvironmentVariable("LName"));
-            EnterAddress(Environment.GetEnvironmentVariable("Address"));
-            EnterCity(Environment.GetEnvironmentVariable("City"));
-            EnterPostcode(Environment.GetEnvironmentVariable("Postcode"));
-            EnterPhone(Environment.GetEnvironmentVariable("PhoneNumber"));
+
+            CheckoutDetails details = new CheckoutDetails();
+            EnterDetails(details);
+            
+        }
+        private void EnterDetails(CheckoutDetails details)
+        {
+            EnterFName(details.FName);
+            EnterLName(details.LName);
+            EnterAddress(details.Address);
+            EnterCity(details.City);
+            EnterPostcode(details.Postcode);
+            EnterPhone(details.Phone);
         }
 
         //function to press the place order button

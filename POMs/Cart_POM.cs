@@ -95,6 +95,8 @@ namespace Project.POMs.Cart_POM
             GetCoupon.SendKeys(couponCode);
             ScrollTo(GetCouponButton, _driver);
             GetCouponButton.Click();
+            Thread.Sleep(1000);
+            TakeScreenshot(_driver, "coupon.png");
         }
 
         //function to check if the cart is empty

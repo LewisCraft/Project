@@ -115,6 +115,7 @@ namespace Project.POMs.Checkout_POM
         {
             By orderNumberSelector = By.CssSelector(".woocommerce-order-overview__order > strong:nth-child(1)");
             WaitFor(orderNumberSelector, _driver);
+            TakeScreenshot(_driver, "OrderReceipt.png");
             IWebElement orderNumber = _driver.FindElement(orderNumberSelector);
             return orderNumber.Text;
         }

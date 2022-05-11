@@ -34,6 +34,13 @@ namespace Project.Utilities
 
         }
 
+        public static void TakeScreenshot(IWebDriver driver, string screenshotName)
+        {
+            ITakesScreenshot ssDriver = driver as ITakesScreenshot;
+            Screenshot screenshot = ssDriver.GetScreenshot();
+            screenshot.SaveAsFile(@"../../../screenshots/"+screenshotName, ScreenshotImageFormat.Png);
+        }
+
 
 
     }

@@ -77,15 +77,13 @@ namespace Project.POMs.Account_POM
 
             try
             {
+                TakeScreenshot(_driver, "OrdersMade.png");
                 _driver.FindElement(By.LinkText("#" + orderNum));
-                //Assert.Pass("The order has been found");
                 found = true;
             }
             catch
             {
-                //Console.WriteLine("The order has not been found");
-                //Console.WriteLine(ex.Message);
-                //Assert.Fail("The order was not found");
+                Console.WriteLine("The order has not been found");
                 found = false;
             }
 

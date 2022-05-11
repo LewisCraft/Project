@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using static Project.Utilities.POM_Helper;
+
 namespace Project.POMs.Cart_POM
 {
     public class Cart_POM
@@ -14,7 +16,6 @@ namespace Project.POMs.Cart_POM
         //set up driver and wait
         //discount value is used in calculating values related to the expected discount
         private IWebDriver _driver;
-        private WebDriverWait _wait;
         private int _discount;
 
         //locator for the remove button for an item in the cart
@@ -53,7 +54,6 @@ namespace Project.POMs.Cart_POM
         public Cart_POM(IWebDriver driver)
         {
             _driver = driver;
-            _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
             _discount = 0;
         }
 
@@ -68,12 +68,6 @@ namespace Project.POMs.Cart_POM
             return _discount;
         }
 
-        //function to scroll to the given element on the page
-        public void ScrollTo(IWebElement element)
-        {
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView(true);", element);
-        }
-
         //function to remove item from the cart
         //probably only works when only one item type is in the cart
         public void RemoveItem()
@@ -81,14 +75,15 @@ namespace Project.POMs.Cart_POM
             try
             {
                 Thread.Sleep(500);
-                ScrollTo(RemoveButton);
+                ScrollTo(RemoveButton, _driver);
                 RemoveButton.Click();
-                _wait.Until(drv => drv.FindElement(By.CssSelector(".cart-empty")).Displayed);
+                By emptyCart = By.CssSelector(".cart-empty");
+                WaitFor(emptyCart, _driver);
 
             }
             catch
             {
-                Console.WriteLine("cart is probably empty already");
+                Console.WriteLine("cart is probably empty");
             }
         }
 
@@ -98,7 +93,7 @@ namespace Project.POMs.Cart_POM
         {
             GetCoupon.Clear();
             GetCoupon.SendKeys(couponCode);
-            ScrollTo(GetCouponButton);
+            ScrollTo(GetCouponButton, _driver);
             GetCouponButton.Click();
         }
 

@@ -58,9 +58,6 @@ namespace Project.Utilities
             //store driver in scenario context to share between steps
             _scenarioContext["driver"] = driver;
 
-
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-
             //make the topnav POM
             topNav = new TopNav(driver);
             
@@ -89,8 +86,7 @@ namespace Project.Utilities
             }
             topNav.ScrollToTopNav();
             topNav.Account.Click();
-            account.ScrollTo(account.LogOut);
-            account.LogOut.Click();
+            account.ClickLogout();
             IWebDriver driver = (IWebDriver)_scenarioContext["driver"];
             driver.Quit();
 

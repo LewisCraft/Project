@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Project.Utilities.POM_Helper;
 
 namespace Project.POMs.TopNav
 {
@@ -25,7 +26,7 @@ namespace Project.POMs.TopNav
         public IWebElement Account => _driver.FindElement(By.LinkText("My account"));
         public IWebElement Blog => _driver.FindElement(By.LinkText("Blog"));
 
-        public void ScrollToTopNav() => ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView(true);", Home);
+        public void ScrollToTopNav() => ScrollTo(Home, _driver);
 
     }
 }

@@ -1,10 +1,11 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using static Project.Utilities.POM_Helper;
 
 namespace Project.POMs.Account_POM
 {
@@ -57,18 +58,14 @@ namespace Project.POMs.Account_POM
             ClickSubmit();
         }
 
-        //function to scroll to the given element on the page
-        public void ScrollTo(IWebElement element)
-        {
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView(true);", element);
-        }
+        
 
         
         
         //function to log out
         public void ClickLogout()
         {
-            ScrollTo(LogOut);
+            ScrollTo(LogOut, _driver);
             LogOut.Click();
         }
 

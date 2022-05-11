@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Project.Utilities.CheckoutDetails;
+using static Project.Utilities.POM_Helper;
 
 namespace Project.POMs.Checkout_POM
 {
@@ -13,7 +14,6 @@ namespace Project.POMs.Checkout_POM
     {
 
         private IWebDriver _driver;
-        private WebDriverWait _wait;
 
         //locators for the checkout fields
         public IWebElement GetFName => _driver.FindElement(By.Id("billing_first_name"));
@@ -28,7 +28,6 @@ namespace Project.POMs.Checkout_POM
         public Checkout_POM(IWebDriver driver)
         {
             _driver = driver;
-            _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
         }
 
         //functions to enter the billing information in the appropriate fields
@@ -97,7 +96,7 @@ namespace Project.POMs.Checkout_POM
         {
             try
             {
-                _wait.Until(drv => GetPlaceOrder.Displayed);
+                WaitFor(GetPlaceOrder, _driver);
                 //has to wait for a moment as the button seems to move immediately after inputs
                 Thread.Sleep(1000);
                 GetPlaceOrder.Click();
@@ -114,8 +113,9 @@ namespace Project.POMs.Checkout_POM
         //returns order number as a string
         public string GetOrderNumber()
         {
-            _wait.Until(drv => drv.FindElement(By.CssSelector(".woocommerce-order-overview__order > strong:nth-child(1)")).Displayed);
-            IWebElement orderNumber = _driver.FindElement(By.CssSelector(".woocommerce-order-overview__order > strong:nth-child(1)"));
+            By orderNumberSelector = By.CssSelector(".woocommerce-order-overview__order > strong:nth-child(1)");
+            WaitFor(orderNumberSelector, _driver);
+            IWebElement orderNumber = _driver.FindElement(orderNumberSelector);
             return orderNumber.Text;
         }
         
